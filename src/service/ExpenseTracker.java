@@ -4,6 +4,7 @@ import model.Expense;
 import validate.CommandValidator;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +76,37 @@ public class ExpenseTracker {
         }
     }
 
-    public static void summary() {
+    public static void summary(String[] commands, String command) {
+
+        if (commands.length < 1 ) {
+            summary();
+        } else {
+            summaryByMonth(commands[2]);
+        }
+    }
+
+    private static double summaryByMonth(String month) {
+        double total = 0;
+        int inputMonth = Integer.parseInt(month);
+
+        for (Expense expense : expenses) {
+            if (expense.getDate().getMonth().getValue() == inputMonth) {
+                total += expense.getAmount();
+            }
+        }
+
+        String monthLoweCase = Month.of(inputMonth).toString().toLowerCase();
+        System.out.println("# Total expenses for " + monthLoweCase.substring(0,1).toUpperCase() + monthLoweCase.substring(1)+ ": $" + total);
+        return total;
+    }
+
+    private static double summary() {
+        double total = 0;
+        for (Expense expense : expenses) {
+            total += expense.getAmount();
+        }
+
+        System.out.println("# Total expenses: $" + total);
+        return total;
     }
 }

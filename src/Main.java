@@ -21,8 +21,6 @@ public class Main {
         System.out.println("* Type \"exit\" to leave                                                                      *");
         System.out.println("*********************************************************************************************");
 
-
-
         while (true) {
             System.out.println("Enter a command: ");
             String command = scanner.nextLine();
@@ -46,7 +44,7 @@ public class Main {
                     ExpenseTracker.listExpenses();
                     break;
                 case "summary":
-                    ExpenseTracker.summary();
+                    ExpenseTracker.summary(commands, command);
                     break;
                 case "exit":
                     System.out.println("Application Expense Tracker - finished ");
@@ -56,6 +54,5 @@ public class Main {
                     System.out.println("Unkown command ");
             }
         }
-
     }
 }
