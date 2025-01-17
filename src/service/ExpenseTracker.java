@@ -33,6 +33,25 @@ public class ExpenseTracker {
     }
 
     public static void updateExpense(String[] commands, String command) {
+        if (CommandValidator.updateCommandValidator(commands, command)) {
+            Expense expense = expenses
+                    .stream()
+                    .filter(e -> e.getId() == Integer.parseInt(commands[2]))
+                    .findAny()
+                    .orElse(null);
+
+            if (expense == null) {
+                System.out.println("Expense with ID: " + commands[2] + " was not found");
+                return;
+            }
+
+            int expenseIndex = expenses.indexOf(expense);
+            expense.setDescription(commands[4]);
+            expense.setAmount(Double.parseDouble(commands[6]));
+            expenses.set(expenseIndex, expense);
+
+            System.out.println("# Expense updated succesfully (ID: " + expense.getId() + ")");
+        }
     }
 
     public static void deleteExpense(String[] commands, String command) {

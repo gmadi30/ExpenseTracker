@@ -22,7 +22,7 @@ public class CommandValidator {
         }
 
         if (Double.parseDouble(commands[4]) < 0) {
-            System.out.println("Invalid amount cannot be less than 0: " + commands[3]);
+            System.out.println("Invalid amount, it cannot be less than 0: " + commands[3]);
             return false;
         }
 
@@ -42,6 +42,38 @@ public class CommandValidator {
             return false;
         }
 
+        return true;
+    }
+
+    public static boolean updateCommandValidator(String[] commands, String command) {
+        if (commands.length != 7) {
+            System.out.println("Invalid command syntax: " + command);
+            System.out.println("Command should be like the following: " + "update --id 1 --description \"Lunch\" --amount 20");
+            return false;
+        }
+
+        if (!"--id".equals(commands[1])) {
+            System.out.println("Invalid optional command syntax: " + commands[1]);
+            System.out.println("Optional command should be like the following: " + "--id");
+            return false;
+        }
+
+        if (!"--description".equals(commands[3])) {
+            System.out.println("Invalid optional command syntax: " + commands[3]);
+            System.out.println("Optional command should be like the following: " + "--description");
+            return false;
+        }
+
+        if (!"--amount".equals(commands[5])) {
+            System.out.println("Invalid optional command syntax: " + commands[5]);
+            System.out.println("Optional command should be like the following: " + "--amount");
+            return false;
+        }
+
+        if (Double.parseDouble(commands[6]) < 0) {
+            System.out.println("Invalid amount, it cannot be less than 0: " + commands[6]);
+            return false;
+        }
         return true;
     }
 }
