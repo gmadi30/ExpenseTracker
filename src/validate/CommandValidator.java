@@ -1,31 +1,37 @@
 package validate;
 
+import utils.Utils;
+
 public class CommandValidator {
 
-    public static boolean addCommandValidator(String[] commands, String command) {
-        if (commands.length != 5) {
+    public static boolean addCommandValidator(String command) {
+
+        // Validates the command has description and amount options
+        if (!command.contains("--description") || !command.contains("--amount") ) {
             System.out.println("Invalid command syntax: " + command);
             System.out.println("Command should be like the following: " + "Ex. add --description \"Lunch\" --amount 20");
             return false;
         }
 
-        if (!"--description".equals(commands[1])) {
-            System.out.println("Invalid optional command syntax: " + commands[1]);
-            System.out.println("Optional command should be like the following: " + "--description");
+        // Validates the description option is not empty or blank
+        if (Utils.isDescriptionEmpty(command)) {
+            System.out.println("The description for the Expense cannot be empty: " + command);
+            System.out.println("Command should be like the following: " + "Ex. add --description \"Lunch\" --amount 20");
+        }
+
+        // Validates the amount option is not empty or blank
+        if (Utils.isAmountEmptyOrBlank(command)){
+            System.out.println("The amount for the Expense cannot be empty: " + command);
+            System.out.println("Command should be like the following: " + "Ex. add --description \"Lunch\" --amount 20");
             return false;
         }
 
-        if (!"--amount".equals(commands[3])) {
-            System.out.println("Invalid optional command syntax: " + commands[3]);
-            System.out.println("Optional command should be like the following: " + "--amount");
+        // Validates the amount option is > 0
+        if (!Utils.isAmountValid(command)){
+            System.out.println("The amount for the Expense cannot be empty: " + command);
+            System.out.println("Command should be like the following: " + "Ex. add --description \"Lunch\" --amount 20");
             return false;
         }
-
-        if (Double.parseDouble(commands[4]) < 0) {
-            System.out.println("Invalid amount, it cannot be less than 0: " + commands[3]);
-            return false;
-        }
-
         return true;
     }
 

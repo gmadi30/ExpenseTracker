@@ -1,6 +1,7 @@
 package service;
 
 import model.Expense;
+import utils.Utils;
 import validate.CommandValidator;
 
 import java.time.LocalDate;
@@ -8,22 +9,18 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ExpenseTracker {
 
     static List<Expense> expenses = new ArrayList<>();
 
-    public static String[] splitCommand(String command) {
-       String[] commands = command.split(" ");
-       return commands;
-    }
-
-    public static void addExpense(String[] commands, String command) {
-        if(CommandValidator.addCommandValidator(commands, command)) {
+    public static void addExpense(String command) {
+        if(CommandValidator.addCommandValidator(command)) {
             Expense expense = new Expense(
                     expenses.size() +1,
                     LocalDate.now(),
-                    commands[2],
-                    Integer.parseInt(commands[4])
+                    Utils.getDescriptionFromCommand(command),
+                    Utils.amountToDouble(Utils.getAmountFromCommand(command))
             );
 
             expenses.add(expense);
@@ -47,8 +44,8 @@ public class ExpenseTracker {
             }
 
             int expenseIndex = expenses.indexOf(expense);
-            expense.setDescription(commands[4]);
-            expense.setAmount(Double.parseDouble(commands[6]));
+            expense.setDescription(Utils.getDescriptionFromCommand(command));
+            expense.setAmount(Utils.amountToDouble(Utils.getAmountFromCommand(command)));
             expenses.set(expenseIndex, expense);
 
             System.out.println("# Expense updated succesfully (ID: " + expense.getId() + ")");
@@ -76,7 +73,7 @@ public class ExpenseTracker {
         }
     }
 
-    public static void summary(String[] commands, String command) {
+    public static void summary(String[] commands) {
 
         if (commands.length < 1 ) {
             summary();
@@ -85,7 +82,7 @@ public class ExpenseTracker {
         }
     }
 
-    private static double summaryByMonth(String month) {
+    private static void summaryByMonth(String month) {
         double total = 0;
         int inputMonth = Integer.parseInt(month);
 
@@ -97,16 +94,16 @@ public class ExpenseTracker {
 
         String monthLoweCase = Month.of(inputMonth).toString().toLowerCase();
         System.out.println("# Total expenses for " + monthLoweCase.substring(0,1).toUpperCase() + monthLoweCase.substring(1)+ ": $" + total);
-        return total;
     }
 
-    private static double summary() {
+    private static void summary() {
         double total = 0;
         for (Expense expense : expenses) {
             total += expense.getAmount();
         }
 
         System.out.println("# Total expenses: $" + total);
-        return total;
     }
+
+
 }

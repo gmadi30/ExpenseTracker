@@ -1,4 +1,5 @@
 import service.ExpenseTracker;
+import utils.Utils;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -22,17 +23,18 @@ public class Main {
         System.out.println("*********************************************************************************************");
 
         while (true) {
-            System.out.println("Enter a command: ");
+            System.out.println("expense-tracker: ");
             String command = scanner.nextLine();
 
             // Split the command received to be read
-            String[] commands = ExpenseTracker.splitCommand(command);
+            String actionCommand = Utils.findActionCommand(command.trim());
+            String[] commands = Utils.splitCommand(command);
             System.out.println(Arrays.toString(commands));
 
             // Based on the first command we control the switch
-            switch (commands[0]) {
+            switch (actionCommand) {
                 case "add":
-                    ExpenseTracker.addExpense(commands, command);
+                    ExpenseTracker.addExpense(command);
                     break;
                 case "update":
                     ExpenseTracker.updateExpense(commands, command);
@@ -44,7 +46,7 @@ public class Main {
                     ExpenseTracker.listExpenses();
                     break;
                 case "summary":
-                    ExpenseTracker.summary(commands, command);
+                    ExpenseTracker.summary(commands);
                     break;
                 case "exit":
                     System.out.println("Application Expense Tracker - finished ");
