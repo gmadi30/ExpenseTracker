@@ -53,7 +53,7 @@ public class Main {
                 case "exit":
                     if (!ExpenseTracker.expenses.isEmpty()) {
                         System.out.println("Saving the expense list into a txt file");
-
+                        ExpenseTracker.saveExpensesToFile();
                     }
 
                     System.out.println("Application Expense Tracker - finished ");

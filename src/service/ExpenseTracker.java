@@ -4,8 +4,11 @@ import model.Expense;
 import utils.Utils;
 import validate.CommandValidator;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +89,7 @@ public class ExpenseTracker {
             summary();
         } else {
             if (CommandValidator.summaryCommandValidator(command)) {
-                summaryByMonth(Utils.getMontFromCommand(command));
+                summaryByMonth(Utils.getMonthFromCommand(command));
             }
         }
     }
@@ -115,4 +118,17 @@ public class ExpenseTracker {
     }
 
 
+    public static void saveExpensesToFile() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-YYYY.HH.mm.ss");
+        String timestamp = LocalDateTime.now().format(formatter);
+
+
+        try {
+            Utils.writeFile(timestamp, expenses);
+            System.out.println("JSON content written to file on desktop successfully.");
+
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving the file " + e.getMessage());
+        }
+    }
 }

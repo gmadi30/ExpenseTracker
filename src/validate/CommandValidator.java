@@ -51,7 +51,7 @@ public class CommandValidator {
         }
 
         // Validates the id is valid
-        if (!Utils.isIdValid(command)){
+        if (!Utils.isIdValid(command, Utils.getIdFromCommand(command))){
             System.out.println("Invalid id syntax: " + command);
             System.out.println(DELETE_VALID_COMMAND_MESSAGE);
             return false;
@@ -74,7 +74,7 @@ public class CommandValidator {
         }
 
         // Validates the id is valid
-        if (!Utils.isIdValid(command)){
+        if (!Utils.isIdValid(command, Utils.getIdFromUpdateCommand(command))){
             System.out.println("Invalid id syntax: " + command);
             System.out.println(UPDATE_VALID_COMMAND_MESSAGE);
             return false;

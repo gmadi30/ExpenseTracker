@@ -1,6 +1,10 @@
 package utils;
 
-import java.time.Month;
+import model.Expense;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 
 public class Utils {
 
@@ -60,16 +64,15 @@ public class Utils {
         return isAmountValid;
     }
 
-    public static boolean isIdValid(String command) {
+    public static boolean isIdValid(String command, String id) {
         boolean isAmountValid = false;
-        String idFromCommand = getIdFromUpdateCommand(command);
         try {
-            int amount = Integer.parseInt(idFromCommand);
+            int amount = Integer.parseInt(id);
             if (amount >= 0) {
                 isAmountValid = true;
             }
         } catch (Exception e) {
-            System.out.println("The input id is not valid: " + idFromCommand);
+            System.out.println("The input id is not valid: " + id);
         }
         return isAmountValid;
     }
@@ -78,12 +81,12 @@ public class Utils {
        return command.substring(command.indexOf("--id") + "--id".length() + 1, command.indexOf("--description")).trim();
     }
 
-    public static String getMontFromCommand(String command) {
+    public static String getMonthFromCommand(String command) {
         return command.substring(command.indexOf("--month") + "--month".length() + 1).trim();
     }
 
     public static boolean isMonthValid(String command) {
-        String month = getMontFromCommand(command);
+        String month = getMonthFromCommand(command);
         int intMonth = 0;
         boolean isMonthValid = false;
         try {
@@ -96,5 +99,19 @@ public class Utils {
         }
 
         return isMonthValid;
+    }
+
+    public static void writeFile(String timestamp,  List<Expense> expenses) throws IOException {
+        String fileName = "C:\\Users\\georg\\Desktop\\ " + timestamp +"expenses.txt";
+        FileWriter fw = new FileWriter(fileName);
+        fw.write("# \tID\tDate\tDescription\tAmount \n");
+        for (Expense expense : expenses) {
+            fw.write("#"
+                    + "\t" +expense.getId()
+                    + "\t" + expense.getDate()
+                    + "\t" + expense.getDescription()
+                    + "\t" + expense.getAmount()+"\t" + "\n");
+        }
+        fw.close();
     }
 }
