@@ -104,7 +104,7 @@ public class Utils {
     }
 
     public static void writeFile(String timestamp,  List<Expense> expenses) throws IOException {
-        String fileName = PATH + timestamp +"expenses.txt";
+        String fileName = timestamp +"expenses.txt";
         FileWriter fw = new FileWriter(fileName);
         fw.write("# \tID\tDate\tDescription\tAmount \n");
         for (Expense expense : expenses) {
