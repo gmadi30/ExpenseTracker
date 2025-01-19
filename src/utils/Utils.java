@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Utils {
 
+    public static final String PATH = "C:\\Users\\georg\\Desktop\\";
+
     private Utils() {}
 
     public static String getDescriptionFromCommand(String command) {
@@ -102,7 +104,7 @@ public class Utils {
     }
 
     public static void writeFile(String timestamp,  List<Expense> expenses) throws IOException {
-        String fileName = "C:\\Users\\georg\\Desktop\\ " + timestamp +"expenses.txt";
+        String fileName = PATH + timestamp +"expenses.txt";
         FileWriter fw = new FileWriter(fileName);
         fw.write("# \tID\tDate\tDescription\tAmount \n");
         for (Expense expense : expenses) {
