@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ExpenseTracker {
 
-    static List<Expense> expenses = new ArrayList<>();
+   public static List<Expense> expenses = new ArrayList<>();
 
     public static void addExpense(String command) {
         if(CommandValidator.addCommandValidator(command)) {
@@ -30,16 +30,17 @@ public class ExpenseTracker {
 
     }
 
-    public static void updateExpense(String[] commands, String command) {
-        if (CommandValidator.updateCommandValidator(commands, command)) {
+    public static void updateExpense(String command) {
+        if (CommandValidator.updateCommandValidator(command)) {
+            String id = Utils.getIdFromUpdateCommand(command);
             Expense expense = expenses
                     .stream()
-                    .filter(e -> e.getId() == Integer.parseInt(commands[2]))
+                    .filter(e -> e.getId() == Integer.parseInt(id))
                     .findAny()
                     .orElse(null);
 
             if (expense == null) {
-                System.out.println("Expense with ID: " + commands[2] + " was not found");
+                System.out.println("Expense with ID: " + id + " was not found");
                 return;
             }
 
@@ -52,16 +53,21 @@ public class ExpenseTracker {
         }
     }
 
-    public static void deleteExpense(String[] commands, String command) {
-        if (CommandValidator.deleteCommandValidator(commands, command)) {
+    public static void deleteExpense(String command) {
+        if (CommandValidator.deleteCommandValidator(command)) {
+            String id = Utils.getIdFromCommand(command);
             Expense expense = expenses
                     .stream()
-                    .filter(e -> e.getId() == Integer.parseInt(commands[2]))
-                    .findAny()
-                    .get();
+                    .filter(e -> e.getId() == Integer.parseInt(id))
+                    .findAny().orElse(null);
 
-            expenses.remove(expense);
-            System.out.println("# Expense deleted succesfully (ID: " + expense.getId() + ")");
+            if (expense != null) {
+                expenses.remove(expense);
+                System.out.println("# Expense deleted succesfully (ID: " + expense.getId() + ")");
+            } else {
+                System.out.println("# Expense with ID " + id + " was not found");
+            }
+
         }
 
     }
@@ -73,12 +79,12 @@ public class ExpenseTracker {
         }
     }
 
-    public static void summary(String[] commands) {
-
-        if (commands.length < 1 ) {
+    public static void summary(String command) {
+        String[] commandArray = command.split(" ");
+        if (commandArray.length < 1 ) {
             summary();
         } else {
-            summaryByMonth(commands[2]);
+            summaryByMonth(commandArray[2]);
         }
     }
 

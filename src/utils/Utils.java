@@ -2,6 +2,8 @@ package utils;
 
 public class Utils {
 
+    private Utils() {}
+
     public static String getDescriptionFromCommand(String command) {
         int index1 = command.indexOf("\"");
         int lastIndex = command.lastIndexOf("\"");
@@ -18,7 +20,7 @@ public class Utils {
 
     public static String findActionCommand(String command) {
         int indexFirstSpace = command.indexOf(" ");
-        String actionCommand = "unknown";
+        String actionCommand = command;
         if (indexFirstSpace != -1) {
             actionCommand = command.substring(0, indexFirstSpace).trim();
         }
@@ -38,6 +40,10 @@ public class Utils {
         return command.substring(command.indexOf("--amount") + "--amount".length() + 1).trim();
     }
 
+    public static String getIdFromCommand(String command) {
+        return command.substring(command.indexOf("--id") + "--id".length() + 1).trim();
+    }
+
     public static boolean isAmountValid(String command) {
         boolean isAmountValid = false;
         String amountFromCommand = getAmountFromCommand(command);
@@ -50,5 +56,23 @@ public class Utils {
             System.out.println("The input amount is not valid: " + amountFromCommand);
         }
         return isAmountValid;
+    }
+
+    public static boolean isIdValid(String command) {
+        boolean isAmountValid = false;
+        String idFromCommand = getIdFromUpdateCommand(command);
+        try {
+            int amount = Integer.parseInt(idFromCommand);
+            if (amount >= 0) {
+                isAmountValid = true;
+            }
+        } catch (Exception e) {
+            System.out.println("The input id is not valid: " + idFromCommand);
+        }
+        return isAmountValid;
+    }
+
+    public static String getIdFromUpdateCommand(String command) {
+       return command.substring(command.indexOf("--id") + "--id".length() + 1, command.indexOf("--description")).trim();
     }
 }

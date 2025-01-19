@@ -31,24 +31,31 @@ public class Main {
             String[] commands = Utils.splitCommand(command);
             System.out.println(Arrays.toString(commands));
 
+
+
             // Based on the first command we control the switch
             switch (actionCommand) {
                 case "add":
                     ExpenseTracker.addExpense(command);
                     break;
                 case "update":
-                    ExpenseTracker.updateExpense(commands, command);
+                    ExpenseTracker.updateExpense(command);
                     break;
                 case "delete":
-                    ExpenseTracker.deleteExpense(commands, command);
+                    ExpenseTracker.deleteExpense(command);
                     break;
                 case "list":
                     ExpenseTracker.listExpenses();
                     break;
                 case "summary":
-                    ExpenseTracker.summary(commands);
+                    ExpenseTracker.summary(command);
                     break;
                 case "exit":
+                    if (!ExpenseTracker.expenses.isEmpty()) {
+                        System.out.println("Saving the expense list into a txt file");
+
+                    }
+
                     System.out.println("Application Expense Tracker - finished ");
                     scanner.close();
                     return;
