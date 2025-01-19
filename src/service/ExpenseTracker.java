@@ -81,10 +81,13 @@ public class ExpenseTracker {
 
     public static void summary(String command) {
         String[] commandArray = command.split(" ");
-        if (commandArray.length < 1 ) {
+
+        if (commandArray.length == 1) {
             summary();
         } else {
-            summaryByMonth(commandArray[2]);
+            if (CommandValidator.summaryCommandValidator(command)) {
+                summaryByMonth(Utils.getMontFromCommand(command));
+            }
         }
     }
 
@@ -98,8 +101,8 @@ public class ExpenseTracker {
             }
         }
 
-        String monthLoweCase = Month.of(inputMonth).toString().toLowerCase();
-        System.out.println("# Total expenses for " + monthLoweCase.substring(0,1).toUpperCase() + monthLoweCase.substring(1)+ ": $" + total);
+        String monthLowerCase = Month.of(inputMonth).toString().toLowerCase();
+        System.out.println("# Total expenses for " + monthLowerCase.substring(0,1).toUpperCase() + monthLowerCase.substring(1)+ ": $" + total);
     }
 
     private static void summary() {

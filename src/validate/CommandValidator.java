@@ -7,6 +7,8 @@ public class CommandValidator {
     public static final String UPDATE_VALID_COMMAND_MESSAGE = "Command should be like the following: " + "Ex. update --id 1 --description \"Lunch\" --amount 20";
     public static final String DELETE_VALID_COMMAND_MESSAGE = "Command should be like the following: " + "Ex. delete --id 2";
     public static final String ADD_VALID_COMMAND_MESSAGE = "Command should be like the following: " + "Ex. add --description \"Lunch\" --amount 20";
+    public static final String SUMMARY_VALID_COMMAND_MESSAGE = "Command should be like the following | Summary: Ex. summary";
+    public static final String SUMMAR_BY_MONTH_VALID_COMMAND_MESSAGE = "Command should be like the following | Summary by month: Ex. summary --month 8";
 
     public static boolean addCommandValidator(String command) {
 
@@ -84,6 +86,27 @@ public class CommandValidator {
             System.out.println(UPDATE_VALID_COMMAND_MESSAGE);
             return false;
         }
+        return true;
+    }
+
+    public static boolean summaryCommandValidator(String command) {
+
+        // Validates the command has id option
+        if (!command.contains("--month")) {
+            System.out.println("Invalid command syntax: " + command);
+            System.out.println(SUMMARY_VALID_COMMAND_MESSAGE);
+            System.out.println(SUMMAR_BY_MONTH_VALID_COMMAND_MESSAGE);
+            return false;
+        }
+
+        // Validates that input month is not blank
+        if (!Utils.isMonthValid(command)) {
+            System.out.println("Invalid command syntax: " + command);
+            System.out.println(SUMMARY_VALID_COMMAND_MESSAGE);
+            System.out.println(SUMMAR_BY_MONTH_VALID_COMMAND_MESSAGE);
+            return false;
+        }
+
         return true;
     }
 }

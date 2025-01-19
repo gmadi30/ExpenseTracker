@@ -1,5 +1,7 @@
 package utils;
 
+import java.time.Month;
+
 public class Utils {
 
     private Utils() {}
@@ -74,5 +76,25 @@ public class Utils {
 
     public static String getIdFromUpdateCommand(String command) {
        return command.substring(command.indexOf("--id") + "--id".length() + 1, command.indexOf("--description")).trim();
+    }
+
+    public static String getMontFromCommand(String command) {
+        return command.substring(command.indexOf("--month") + "--month".length() + 1).trim();
+    }
+
+    public static boolean isMonthValid(String command) {
+        String month = getMontFromCommand(command);
+        int intMonth = 0;
+        boolean isMonthValid = false;
+        try {
+            intMonth = Integer.parseInt(month);
+            if (intMonth >= 1 && intMonth <= 12) {
+                isMonthValid = true;
+            }
+        } catch (Exception e) {
+            System.out.println("The input month is not valid");
+        }
+
+        return isMonthValid;
     }
 }
